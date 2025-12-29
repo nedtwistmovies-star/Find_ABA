@@ -4,47 +4,4 @@ import { ReactNode } from "react";
 export default function Layout({ children }: { children: ReactNode }) {
   return <main className="p-4">{children}</main>;
 }
-📁 FOLDER — src/components/media/
-📄 FILE 18 — ImageCarousel.tsx
-📍 Path: /src/components/media/ImageCarousel.tsx
-🎯 Purpose: Media carousel
-📝 Commit: ui: add image carousel
-Copy code
-Tsx
-export default function ImageCarousel() {
-  return <div>Image Carousel</div>;
-}
-📁 FOLDER — src/components/system/
-📄 FILE 19 — ErrorBoundary.tsx
-📍 Path: /src/components/system/ErrorBoundary.tsx
-🎯 Purpose: Crash containment
-📝 Commit: safety: add error boundary
-Copy code
-Tsx
-import { Component, ReactNode } from "react";
 
-export default class ErrorBoundary extends Component<
-  { children: ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) return <h1>Something went wrong.</h1>;
-    return this.props.children;
-  }
-}
-📁 FOLDER — src/views/
-📄 FILE 20 — Home.tsx
-📍 Path: /src/views/Home.tsx
-🎯 Purpose: Home page
-📝 Commit: page: add home view
-Copy code
-Tsx
-export default function Home() {
-  return <h1>Welcome to FindAba</h1>;
-}
