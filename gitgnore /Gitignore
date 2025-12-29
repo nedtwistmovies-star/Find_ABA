@@ -1,9 +1,0 @@
-Gitignore
-node_modules
-dist
-.env
-.env.local
-.env.*.local
-.vercel
-.DS_Store
-npm-debug.log
