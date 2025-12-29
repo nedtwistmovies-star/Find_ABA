@@ -1,21 +1,12 @@
-/**
- * Centralized environment variable loader
- * Vite + Vercel safe
- * Fails fast if required env vars are missing
- */
+// src/config/env.ts
 
-function getEnv(key: string): string {
-  const value = import.meta.env[key];
+export const env = {
+  SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
+  SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY,
+} as const;
 
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${key}`);
-  }
-
-  return value;
+if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+  throw new Error(
+    "Missing Supabase environment variables. Check .env and Vercel settings."
+  );
 }
-
-export const ENV = {
-  SUPABASE_URL: getEnv("VITE_SUPABASE_URL"),
-  SUPABASE_ANON_KEY: getEnv("VITE_SUPABASE_ANON_KEY"),
-  GEMINI_API_KEY: getEnv("VITE_GEMINI_API_KEY"),
-};
