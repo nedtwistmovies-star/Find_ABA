@@ -1,0 +1,8 @@
+
+🎯 Purpose: Media carousel
+📝 Commit: ui: add image carousel
+Copy code
+Tsx
+export default function ImageCarousel() {
+  return <div>Image Carousel</div>;
+}
