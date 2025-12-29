@@ -1,0 +1,14 @@
+Tsx
+import Layout from "./components/layout/Layout";
+import ErrorBoundary from "./components/system/ErrorBoundary";
+import Home from "./views/Home";
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <Layout>
+        <Home />
+      </Layout>
+    </ErrorBoundary>
+  );
+}
