@@ -1,10 +1,13 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 if (!GEMINI_API_KEY) {
   throw new Error("Missing GEMINI_API_KEY environment variable");
 }
+
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export default async function handler(
   req: VercelRequest,
@@ -21,17 +24,22 @@ export default async function handler(
       return res.status(400).json({ error: "Prompt is required" });
     }
 
-    // 🔧 Temporary placeholder (safe for production)
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+    });
+
+    const result = await model.generateContent(prompt);
+    const response = result.response.text();
+
     return res.status(200).json({
       success: true,
-      message: "Gemini endpoint is working",
-      prompt,
+      data: response,
     });
   } catch (error) {
     console.error("Gemini API error:", error);
 
     return res.status(500).json({
-      error: "Internal server error",
+      error: "AI generation failed",
     });
   }
 }
