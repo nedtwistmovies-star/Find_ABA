@@ -1,1 +1,8 @@
+/**
+ * @deprecated
+ * This file is intentionally disabled.
+ * Supabase client is centralized in src/lib/supabase.ts
+ * DO NOT USE.
+ */
 
+export {};
