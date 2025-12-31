@@ -1,45 +1,45 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-
-if (!GEMINI_API_KEY) {
-  throw new Error("Missing GEMINI_API_KEY environment variable");
-}
-
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-
-export default async function handler(
-  req: VercelRequest,
-  res: VercelResponse
-) {
+export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return new Response(
+      JSON.stringify({ error: "Method not allowed" }),
+      { status: 405 }
+    );
   }
 
   try {
-    const { prompt } = req.body as { prompt?: string };
+    const body = await req.json();
+    const { prompt } = body;
 
-    if (!prompt || typeof prompt !== "string") {
-      return res.status(400).json({ error: "Prompt is required" });
+    if (!prompt) {
+      return new Response(
+        JSON.stringify({ error: "Prompt is required" }),
+        { status: 400 }
+      );
     }
+
+    const genAI = new GoogleGenerativeAI(
+      process.env.GEMINI_API_KEY as string
+    );
 
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-flash",
     });
 
     const result = await model.generateContent(prompt);
-    const response = result.response.text();
+    const text = result.response.text();
 
-    return res.status(200).json({
-      success: true,
-      data: response,
-    });
+    return new Response(
+      JSON.stringify({ success: true, data: text }),
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Gemini API error:", error);
 
-    return res.status(500).json({
-      error: "AI generation failed",
-    });
+    return new Response(
+      JSON.stringify({ error: "Gemini request failed" }),
+      { status: 500 }
+    );
   }
 }
