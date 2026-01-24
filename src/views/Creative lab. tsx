@@ -1,3 +1,0 @@
-Tsx
-export default function CreativeLab() {
-  return <div>Creative Lab</div>;

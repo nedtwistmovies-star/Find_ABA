@@ -1,4 +1,0 @@
-Ts
-import { APP_NAME } from "../config/constants";
-
-export const useConstants = () => ({ APP_NAME });
